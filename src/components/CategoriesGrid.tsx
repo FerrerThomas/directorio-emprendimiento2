@@ -106,7 +106,7 @@ function CategoriesGrid() {
             Explorá todas las categorías y encontrá lo que necesitás
           </p>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-8 gap-6">
             {categories.map((category, index) => {
               const Icon = getIconComponent(category.icon, index);
               const color = colorCycle[index % colorCycle.length];
@@ -114,7 +114,7 @@ function CategoriesGrid() {
                 <div
                   key={category.id}
                   onClick={() => handleCategoryClick(category.id, category.nombre)}
-                  className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-lg hover:border-pink-300 transition-all duration-300 cursor-pointer group"
+                  className="bg-white rounded-xl p-6  shadow-sm border border-gray-200 hover:shadow-lg hover:border-pink-300 transition-all duration-300 cursor-pointer group"
                 >
                   <div className="flex flex-col items-center text-center space-y-3">
                     <div className={`${color} group-hover:scale-110 transition-transform duration-300`}>

@@ -79,8 +79,8 @@ function BusinessIndexModal({ isOpen, categoryId, categoryName, onClose }: Props
   }
 
   return (
-    <div className="fixed inset-0 bg-black/50 z-40 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+    <div className="fixed inset-x-0 top-16 md:top-20 bottom-0 bg-black/50 z-40 flex items-center justify-center p-4">
+      <div className="bg-white rounded-lg max-w-4xl w-full max-h-full overflow-hidden flex flex-col">
         <div className="flex items-center justify-between bg-gradient-to-r from-pink-600 to-orange-500 text-white p-6">
           <h2 className="text-2xl font-bold">{categoryName}</h2>
           <button
@@ -136,7 +136,6 @@ function BusinessIndexModal({ isOpen, categoryId, categoryName, onClose }: Props
                       <h3 className="font-semibold text-gray-900 hover:text-pink-600 transition-colors">
                         {business.nombre}
                       </h3>
-                      <p className="text-sm text-gray-600 mt-1">{business.descripcion_corta}</p>
                       {business.direccion && (
                         <div className="flex items-center gap-2 mt-2 text-gray-600 text-sm">
                           <MapPin className="w-4 h-4 text-pink-600" />

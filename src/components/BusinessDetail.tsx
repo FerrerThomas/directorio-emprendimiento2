@@ -36,8 +36,8 @@ function BusinessDetail({ business, onBack }: Props) {
   const portadaUrl = business.portada_url || 'https://images.pexels.com/photos/256514/pexels-photo-256514.jpeg?auto=compress&cs=tinysrgb&w=600';
 
   return (
-    <div className="fixed inset-0 bg-black/50 z-40 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-x-0 top-16 md:top-20 bottom-0 bg-black/50 z-40 flex items-center justify-center p-4">
+      <div className="bg-white rounded-lg max-w-3xl w-full max-h-full overflow-y-auto">
         <div className="relative h-64 md:h-72 overflow-hidden">
           <img
             src={portadaUrl}
@@ -133,7 +133,7 @@ function BusinessDetail({ business, onBack }: Props) {
             onClick={onBack}
             className="w-full bg-gradient-to-r from-pink-600 to-orange-500 text-white font-semibold py-3 rounded-lg hover:shadow-lg transition-all"
           >
-            Volver al índice
+            Volver
           </button>
         </div>
       </div>
