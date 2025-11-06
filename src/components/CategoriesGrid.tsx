@@ -118,7 +118,7 @@ function CategoriesGrid() {
                 >
                   <div className="flex flex-col items-center text-center space-y-3">
                     <div className={`${color} group-hover:scale-110 transition-transform duration-300`}>
-                      <Icon className="w-12 h-12" strokeWidth={1.5} />
+                      <Icon className="w-14 h-14" strokeWidth={1.5} />
                     </div>
                     <h3 className="text-sm font-semibold text-gray-800 leading-tight">
                       {category.nombre}

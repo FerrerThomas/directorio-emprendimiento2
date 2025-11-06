@@ -89,14 +89,6 @@ function Carousel() {
             alt={slide.nombre}
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-            <div className="text-center text-white max-w-3xl px-4">
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
-                {slide.nombre}
-              </h2>
-              <p className="text-lg md:text-xl">Descubre este emprendimiento destacado</p>
-            </div>
-          </div>
         </div>
       ))}
 
@@ -116,18 +108,7 @@ function Carousel() {
         <ChevronRight className="w-6 h-6 text-white" />
       </button>
 
-      <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
-        {slides.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrentSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all ${
-              index === currentSlide ? 'bg-white w-8' : 'bg-white/50'
-            }`}
-            aria-label={`Ir a slide ${index + 1}`}
-          />
-        ))}
-      </div>
+      
     </div>
   );
 }
