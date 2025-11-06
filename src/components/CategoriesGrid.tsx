@@ -106,7 +106,7 @@ function CategoriesGrid() {
             Explorá todas las categorías y encontrá lo que necesitás
           </p>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-8 gap-6">
+          <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-8 gap-6">
             {categories.map((category, index) => {
               const Icon = getIconComponent(category.icon, index);
               const color = colorCycle[index % colorCycle.length];

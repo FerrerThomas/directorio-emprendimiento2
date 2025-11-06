@@ -59,7 +59,7 @@ function Carousel() {
 
   if (loading) {
     return (
-      <div className="relative mt-16 md:mt-20 h-[500px] md:h-[600px] flex items-center justify-center bg-gray-100">
+      <div className="relative mt-16 md:mt-20 h-56 md:h-[600px] flex items-center justify-center bg-gray-100">
         <p className="text-gray-500">Cargando emprendimientos destacados...</p>
       </div>
     );
@@ -67,7 +67,7 @@ function Carousel() {
 
   if (slides.length === 0) {
     return (
-      <div className="relative mt-16 md:mt-20 h-[500px] md:h-[600px] bg-gradient-to-r from-pink-500 to-orange-400 flex items-center justify-center">
+      <div className="relative mt-16 md:mt-20 h-56 md:h-[600px] bg-gradient-to-r from-pink-500 to-orange-400 flex items-center justify-center">
         <div className="text-center text-white">
           <p className="text-xl">No hay emprendimientos destacados por el momento</p>
         </div>
@@ -76,7 +76,7 @@ function Carousel() {
   }
 
   return (
-    <div className="relative mt-16 md:mt-20 h-[500px] md:h-[600px] overflow-hidden">
+    <div className="relative mt-16 md:mt-20 h-56 md:h-[600px] overflow-hidden">
       {slides.map((slide, index) => (
         <div
           key={slide.id}
