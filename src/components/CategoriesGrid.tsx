@@ -217,7 +217,7 @@ function CategoriesGrid({ initialCategoryId, hideHeader }: CategoriesGridProps) 
                 .map((b, idx2, arr) => (
                   <button
                     key={b.id}
-                    onClick={() => navigate(`/emprendimiento/${b.id}`, { state: { from: breadcrumb } })}
+                    onClick={() => setSelectedBusiness(b)}
                     className={`w-full py-3 md:py-4 flex items-start gap-3 sm:gap-4 text-left group ${idx2 < arr.length - 1 ? 'border-b border-gray-200' : ''}`}
                   >
                     <div className="pt-0.5 text-pink-600">
@@ -228,7 +228,7 @@ function CategoriesGrid({ initialCategoryId, hideHeader }: CategoriesGridProps) 
                         {b.nombre}
                       </p>
                       {b.direccion && (
-                        <p className="text-xs sm:text-sm text-gray-600 truncate">
+                        <p className="text-xs sm:text-sm text-gray-600 truncate">␊
                           {b.direccion} <span className="text-pink-600 font-semibold">+ Info</span>
                         </p>
                       )}

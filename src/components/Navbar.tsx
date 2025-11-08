@@ -1,4 +1,5 @@
 import { Search, Facebook, Instagram, MessageCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 function Navbar() {
   return (
@@ -6,9 +7,11 @@ function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
           <div className="flex-shrink-0">
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-pink-600 to-orange-500 bg-clip-text text-transparent">
-              Guia Local
-            </h1>
+            <Link to="/" aria-label="Ir al inicio">
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-pink-600 to-orange-500 bg-clip-text text-transparent">
+                Guia Local
+              </h1>
+            </Link>
           </div>
 
           {/* Búsqueda en móvil al lado del logo */}
