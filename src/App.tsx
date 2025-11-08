@@ -1,14 +1,40 @@
 import Navbar from './components/Navbar';
 import Carousel from './components/Carousel';
 import CategoriesGrid from './components/CategoriesGrid';
+import HighlightedGrid from './components/HighlightedGrid';
+import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom';
 
-function App() {
+function HomePage() {
   return (
-    <div className="min-h-screen bg-white">
+    <>
       <Navbar />
       <Carousel />
       <CategoriesGrid />
-    </div>
+      <HighlightedGrid />
+    </>
+  );
+}
+
+function CategoriesPage() {
+  const { id } = useParams();
+  return (
+    <>
+      <Navbar />
+      <CategoriesGrid initialCategoryId={id} hideHeader />
+      <HighlightedGrid />
+    </>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/categorias/:id" element={<CategoriesPage />} />
+        <Route path="/categorias" element={<CategoriesPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

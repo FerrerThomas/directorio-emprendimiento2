@@ -1,13 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ChevronDown, ChevronRight, MapPin } from 'lucide-react';
 import * as lucideIcons from 'lucide-react';
-import BusinessIndexModal from './BusinessIndexModal';
-import { supabase } from '../lib/supabase';
+import { categoriesHierarchy, CategoryNode, colorCycle } from '../data/categoriesHierarchy';
+import { businessesBySubcategory } from '../data/businessSamples';
+import BusinessDetail from './BusinessDetail';
 
-interface Category {
+interface Breadcrumb {
   id: string;
   nombre: string;
-  descripcion: string | null;
-  icon: string | null;
 }
 
 const iconMap: Record<string, any> = {
@@ -15,7 +16,7 @@ const iconMap: Record<string, any> = {
   'key-round': lucideIcons.KeyRound,
   'pickaxe': lucideIcons.Pickaxe,
   'plug-2': lucideIcons.Plug2,
-  'spray-can': lucideIcons.Wind,
+  'wind': lucideIcons.Wind,
   'shield-alert': lucideIcons.ShieldAlert,
   'truck': lucideIcons.Truck,
   'drill': lucideIcons.Drill,
@@ -32,113 +33,295 @@ const iconMap: Record<string, any> = {
   'phone': lucideIcons.Phone,
 };
 
-const colorCycle = ['text-pink-600', 'text-orange-600'];
+type CategoriesGridProps = {
+  initialCategoryId?: string;
+  hideHeader?: boolean;
+};
 
-function CategoriesGrid() {
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedCategoryId, setSelectedCategoryId] = useState<string>('');
-  const [selectedCategoryName, setSelectedCategoryName] = useState<string>('');
+function CategoriesGrid({ initialCategoryId, hideHeader }: CategoriesGridProps) {
+  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
+  const [breadcrumb, setBreadcrumb] = useState<Breadcrumb[]>([]);
+  const navigate = useNavigate();
+  const [selectedBusiness, setSelectedBusiness] = useState<any | null>(null);
 
+  // Pre-selecciona categoría si viene por prop (ruta /categorias/:id)
   useEffect(() => {
-    fetchCategories();
-  }, []);
+    if (!initialCategoryId) return;
+    const cat = categoriesHierarchy.find((c) => c.id === initialCategoryId);
+    if (!cat) return;
+    setExpandedCategories(new Set([cat.id]));
+    setBreadcrumb([{ id: cat.id, nombre: cat.nombre }]);
+  }, [initialCategoryId]);
 
-  const fetchCategories = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('categorias')
-        .select('*')
-        .order('nombre', { ascending: true });
+  const toggleExpanded = (categoryId: string) => {
+    const newExpanded = new Set(expandedCategories);
+    if (newExpanded.has(categoryId)) {
+      newExpanded.delete(categoryId);
+    } else {
+      newExpanded.add(categoryId);
+    }
+    setExpandedCategories(newExpanded);
+  };
 
-      if (error) {
-        console.error('Error fetching categories:', error);
-        setCategories([]);
-      } else {
-        setCategories(data || []);
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      setCategories([]);
-    } finally {
-      setLoading(false);
+  const handleCategoryClick = (category: CategoryNode) => {
+    if (category.children && category.children.length > 0) {
+      // Navega a la sección dedicada de categorías
+      navigate(`/categorias/${category.id}`);
     }
   };
 
-  const handleCategoryClick = (categoryId: string, categoryName: string) => {
-    setSelectedCategory(categoryId);
-    setSelectedCategoryId(categoryId);
-    setSelectedCategoryName(categoryName);
-  };
-
-  const handleCloseModal = () => {
-    setSelectedCategory(null);
-    setSelectedCategoryId('');
-    setSelectedCategoryName('');
-  };
-
-  const getIconComponent = (iconName: string | null, index: number) => {
-    if (!iconName) {
-      return lucideIcons.Sparkles;
+  const handleSubcategoryClick = (subcategory: CategoryNode, parentCategory: Breadcrumb) => {
+    if (subcategory.children && subcategory.children.length > 0) {
+      toggleExpanded(subcategory.id);
+      setBreadcrumb([parentCategory, { id: subcategory.id, nombre: subcategory.nombre }]);
     }
+  };
+
+  const handleResetBreadcrumb = () => {
+    setBreadcrumb([]);
+    setExpandedCategories(new Set());
+  };
+
+  const handleBreadcrumbClick = (index: number) => {
+    if (index === -1) {
+      handleResetBreadcrumb();
+    } else {
+      setBreadcrumb(breadcrumb.slice(0, index + 1));
+    }
+  };
+
+  const getIcon = (iconName?: string) => {
+    if (!iconName) return lucideIcons.Sparkles;
     return iconMap[iconName] || lucideIcons.Sparkles;
   };
 
-  if (loading) {
+  const renderCategoryCard = (category: CategoryNode, isSubcategory: boolean = false) => {
+    const Icon = getIcon(category.icon);
+    const isExpanded = expandedCategories.has(category.id);
+    const hasChildren = !!(category.children && category.children.length > 0);
+    const color = colorCycle[isSubcategory ? 1 : 0];
+
     return (
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
-          <p className="text-center text-gray-500">Cargando categorías...</p>
+      <div
+        key={category.id}
+        onClick={() => {
+          if (isSubcategory && breadcrumb.length > 0) {
+            handleSubcategoryClick(category, breadcrumb[0]);
+          } else {
+            handleCategoryClick(category);
+          }
+        }}
+        className={`bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-lg hover:border-pink-300 transition-all duration-300 ${
+          hasChildren ? 'cursor-pointer group' : 'opacity-75'
+        }`}
+      >
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3 flex-1 min-w-0">
+            <div className={`${color} group-hover:scale-110 transition-transform duration-300 flex-shrink-0`}>
+              <Icon className="w-8 h-8 sm:w-10 sm:h-10" strokeWidth={1.5} />
+            </div>
+            <h3 className="text-sm sm:text-base font-semibold text-gray-800 truncate">
+              {category.nombre}
+            </h3>
+          </div>
+          {hasChildren && (
+            <div className="flex-shrink-0">
+              {isExpanded ? (
+                <ChevronDown className="w-5 h-5 text-pink-600" />
+              ) : (
+                <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-pink-600 transition-colors" />
+              )}
+            </div>
+          )}
         </div>
-      </section>
+      </div>
     );
-  }
+  };
+
+  const renderMainCategoryChip = (category: CategoryNode) => {
+    const Icon = getIcon(category.icon);
+    const selected = breadcrumb[0]?.id === category.id;
+    return (
+      <button
+        key={category.id}
+        onClick={() => handleCategoryClick(category)}
+        className={`shrink-0 w-28 sm:w-32 aspect-square bg-white rounded-xl border transition-all ${
+          selected ? 'border-pink-400 shadow-md' : 'border-gray-200 hover:border-pink-300 hover:shadow-sm'
+        }`}
+      >
+        <div className="h-full w-full flex flex-col items-center justify-center text-center p-3">
+          <div className={`${colorCycle[0]} mb-2`}>
+            <Icon className="w-8 h-8 sm:w-10 sm:h-10" strokeWidth={1.6} />
+          </div>
+          <p className="text-xs sm:text-sm font-semibold text-gray-800 leading-tight">
+            {category.nombre}
+          </p>
+        </div>
+      </button>
+    );
+  };
+
+  // Subcategorías: nombre en MAYÚSCULAS, ancho uniforme y flecha al final
+  const renderSubcategoryItem = (subcategory: CategoryNode, parent: Breadcrumb) => {
+    const hasChildren = !!(subcategory.children && subcategory.children.length > 0);
+    return (
+      <button
+        key={subcategory.id}
+        onClick={() => handleSubcategoryClick(subcategory, parent)}
+        className="group w-full h-14 sm:h-16 px-1 sm:px-2 flex items-center justify-between text-left"
+      >
+        <span className="uppercase font-semibold text-gray-800 text-base sm:text-lg truncate">
+          {subcategory.nombre}
+        </span>
+        <ChevronRight className={`w-5 h-5 ${hasChildren ? 'text-pink-600' : 'text-gray-300'} transition-transform group-hover:translate-x-0.5`}/>
+      </button>
+    );
+  };
+
+  const renderExpandedSubcategories = () => {
+    if (breadcrumb.length === 0) return null;
+
+    const parentCategory = categoriesHierarchy.find((c) => c.id === breadcrumb[0].id);
+    if (!parentCategory || !parentCategory.children) return null;
+
+    const parent = { id: parentCategory.id, nombre: parentCategory.nombre };
+    return parentCategory.children.map((subcategory) => renderSubcategoryItem(subcategory, parent));
+  };
+
+  const renderSubcategoriesOfSubcategory = () => {
+    if (breadcrumb.length !== 2) return null;
+
+    const parentCategory = categoriesHierarchy.find((c) => c.id === breadcrumb[0].id);
+    if (!parentCategory || !parentCategory.children) return null;
+
+    const subcategory = parentCategory.children.find((c) => c.id === breadcrumb[1].id);
+    if (!subcategory || !subcategory.children) return null;
+
+    const parent = { id: subcategory.id, nombre: subcategory.nombre };
+    return subcategory.children.map((subSubcategory) => renderSubcategoryItem(subSubcategory, parent));
+  };
+
+  const renderBusinessesOfCurrentSubcategory = () => {
+    if (breadcrumb.length !== 2) return null;
+    const subcatId = breadcrumb[1].id;
+    const items = businessesBySubcategory[subcatId] || [];
+    if (items.length === 0) return null;
+
+    return (
+      <div className="mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 sm:gap-3 md:gap-6 lg:gap-8">
+          {[0,1,2].map((col) => (
+            <div key={col} className="">
+              {items
+                .filter((_, idx) => idx % 3 === col)
+                .map((b, idx2, arr) => (
+                  <button
+                    key={b.id}
+                    onClick={() => navigate(`/emprendimiento/${b.id}`, { state: { from: breadcrumb } })}
+                    className={`w-full py-3 md:py-4 flex items-start gap-3 sm:gap-4 text-left group ${idx2 < arr.length - 1 ? 'border-b border-gray-200' : ''}`}
+                  >
+                    <div className="pt-0.5 text-pink-600">
+                      <MapPin className="w-6 h-6" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="uppercase font-extrabold text-gray-900 text-base sm:text-lg truncate">
+                        {b.nombre}
+                      </p>
+                      {b.direccion && (
+                        <p className="text-xs sm:text-sm text-gray-600 truncate">
+                          {b.direccion} <span className="text-pink-600 font-semibold">+ Info</span>
+                        </p>
+                      )}
+                    </div>
+                    <ChevronRight className="w-5 h-5 text-gray-300 group-hover:text-pink-600 transition-colors" />
+                  </button>
+                ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
 
   return (
     <>
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900">
-            ¿Qué estás buscando hoy?
-          </h2>
-          <p className="text-center text-gray-600 mb-12 text-lg">
-            Explorá todas las categorías y encontrá lo que necesitás
-          </p>
+    <section className={`px-4 sm:px-6 lg:px-8 bg-gray-50 py-8 ${hideHeader ? 'mt-16 md:mt-20' : ''}`}>
+      <div className="max-w-7xl mx-auto">
+        {!hideHeader && (
+          <>
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900">
+              ¿Qué estás buscando hoy?
+            </h2>
+          </>
+        )}
 
-          <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-8 gap-6">
-            {categories.map((category, index) => {
-              const Icon = getIconComponent(category.icon, index);
-              const color = colorCycle[index % colorCycle.length];
-              return (
-                <div
-                  key={category.id}
-                  onClick={() => handleCategoryClick(category.id, category.nombre)}
-                  className="bg-white rounded-xl p-6  shadow-sm border border-gray-200 hover:shadow-lg hover:border-pink-300 transition-all duration-300 cursor-pointer group"
-                >
-                  <div className="flex flex-col items-center text-center space-y-3">
-                    <div className={`${color} group-hover:scale-110 transition-transform duration-300`}>
-                      <Icon className="w-14 h-14" strokeWidth={1.5} />
-                    </div>
-                    <h3 className="text-sm font-semibold text-gray-800 leading-tight">
-                      {category.nombre}
-                    </h3>
-                  </div>
-                </div>
-              );
-            })}
+        {/* Main categories: Home (no scroll on mobile) vs /categorias (scroll) */}
+        {hideHeader ? (
+          // In categories page: keep horizontal scroll in all breakpoints
+          <div className="overflow-x-auto -mx-4 px-4 pb-4">
+            <div className="flex gap-3 sm:gap-4">
+              {categoriesHierarchy.map((cat) => renderMainCategoryChip(cat))}
+            </div>
           </div>
-        </div>
-      </section>
+        ) : (
+          // In home: mobile grid of 3 per row; keep scroll on md+
+          <>
+            <div className="md:hidden">
+              <div className="grid grid-cols-3 gap-3 sm:gap-4">
+                {categoriesHierarchy.map((cat) => renderMainCategoryChip(cat))}
+              </div>
+            </div>
+            <div className="hidden md:block overflow-x-auto -mx-4 px-4 pb-4">
+              <div className="flex gap-3 sm:gap-4">
+                {categoriesHierarchy.map((cat) => renderMainCategoryChip(cat))}
+              </div>
+            </div>
+          </>
+        )}
 
-      {selectedCategory && (
-        <BusinessIndexModal
-          isOpen={!!selectedCategory}
-          categoryId={selectedCategoryId}
-          categoryName={selectedCategoryName}
-          onClose={handleCloseModal}
-        />
-      )}
+        {/* Breadcrumb and subcategories grid below */}
+        <div className="mt-6">
+          {breadcrumb.length > 0 && (
+            <div className="flex flex-wrap items-center gap-2 text-sm sm:text-base mb-6">
+              <button
+                onClick={() => handleBreadcrumbClick(-1)}
+                className="text-pink-600 hover:text-pink-700 font-semibold transition-colors"
+              >
+                Categorías
+              </button>
+              {breadcrumb.map((item, index) => (
+                <div key={item.id} className="flex items-center gap-2">
+                  <span className="text-gray-400">&gt;</span>
+                  <button
+                    onClick={() => handleBreadcrumbClick(index)}
+                    className="text-gray-700 hover:text-pink-600 font-semibold transition-colors truncate"
+                  >
+                    {item.nombre}
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+            {breadcrumb.length === 1 && renderExpandedSubcategories()}
+            {breadcrumb.length === 2 && renderSubcategoriesOfSubcategory()}
+          </div>
+
+          {breadcrumb.length === 0 && (
+            <p className="mt-6 text-sm text-gray-500 italic">
+              Selecciona una categoría para ver subcategorías
+            </p>
+          )}
+
+          {/* Emprendimientos dentro de la subcategoría seleccionada */}
+          {breadcrumb.length === 2 && renderBusinessesOfCurrentSubcategory()}
+        </div>
+      </div>
+    </section>
+    {selectedBusiness && (
+      <BusinessDetail business={selectedBusiness} onBack={() => setSelectedBusiness(null)} />
+    )}
     </>
   );
 }
