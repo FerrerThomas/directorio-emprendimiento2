@@ -6,6 +6,7 @@ import { colorCycle } from '../data/categoriesHierarchy';
 import { supabase } from '../lib/supabase';
 import { businessesBySubcategory } from '../data/businessSamples';
 import BusinessDetail from './BusinessDetail';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface Breadcrumb {
   id: string;
@@ -262,7 +263,7 @@ function CategoriesGrid({ initialCategoryId, hideHeader }: CategoriesGridProps) 
 
     return (
       <div className="mt-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 sm:gap-3 md:gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 sm:gap-3 md:gap-8 lg:gap-8">
           {[0,1,2].map((col) => (
             <div key={col} className="">
               {items
@@ -356,10 +357,19 @@ function CategoriesGrid({ initialCategoryId, hideHeader }: CategoriesGridProps) 
             </div>
           )}
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
-            {breadcrumb.length === 1 && renderExpandedSubcategories()}
-            {breadcrumb.length === 2 && renderSubcategoriesOfSubcategory()}
-          </div>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={breadcrumb.map(b=>b.id).join("-")}
+              initial={{opacity:0, y:8}}
+              animate={{opacity:1, y:0}}
+              exit={{opacity:0, y:-8}}
+              transition={{duration:0.2}}
+              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6"
+            >
+              {breadcrumb.length === 1 && renderExpandedSubcategories()}
+              {breadcrumb.length === 2 && renderSubcategoriesOfSubcategory()}
+            </motion.div>
+          </AnimatePresence>
 
           {/* Emprendimientos dentro de la subcategoría seleccionada */}
           {breadcrumb.length === 2 && renderBusinessesOfCurrentSubcategory()}
