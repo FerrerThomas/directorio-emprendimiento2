@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
+import BusinessDetail from './BusinessDetail';
 
 type Highlight = {
   id: string;
@@ -10,6 +11,7 @@ type Highlight = {
 function HighlightedGrid() {
   const [items, setItems] = useState<Highlight[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selected, setSelected] = useState<any | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,6 +34,19 @@ function HighlightedGrid() {
     fetchData();
   }, []);
 
+  const openBusiness = async (id: string) => {
+    try {
+      const { data } = await supabase
+        .from('emprendimientos')
+        .select('id,nombre,descripcion_corta,descripcion_larga,direccion,telefono,redes,portada_url')
+        .eq('id', id)
+        .maybeSingle();
+      if (data) setSelected(data);
+    } catch (_) {
+      // ignore
+    }
+  };
+
   if (loading && items.length === 0) {
     return (
       <section className="px-4 sm:px-6 lg:px-8 mt-10">
@@ -50,7 +65,11 @@ function HighlightedGrid() {
     <section className="px-4 sm:px-6 lg:px-8 mt-10">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4">
         {items.map((item) => (
-          <div key={item.id} className="rounded-xl overflow-hidden border border-gray-200 bg-white">
+          <button
+            key={item.id}
+            onClick={() => openBusiness(item.id)}
+            className="rounded-xl overflow-hidden border border-gray-200 bg-white text-left focus:outline-none focus:ring-2 focus:ring-pink-500 transition-shadow hover:shadow-md"
+          >
             <div className="aspect-video w-full bg-gray-100">
               <img
                 src={item.portada_url || ''}
@@ -58,12 +77,14 @@ function HighlightedGrid() {
                 className="w-full h-full object-cover"
               />
             </div>
-          </div>
+          </button>
         ))}
       </div>
+      {selected && (
+        <BusinessDetail business={selected} onBack={() => setSelected(null)} />
+      )}
     </section>
   );
 }
 
 export default HighlightedGrid;
-

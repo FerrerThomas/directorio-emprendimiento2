@@ -361,12 +361,6 @@ function CategoriesGrid({ initialCategoryId, hideHeader }: CategoriesGridProps) 
             {breadcrumb.length === 2 && renderSubcategoriesOfSubcategory()}
           </div>
 
-          {breadcrumb.length === 0 && (
-            <p className="mt-6 text-sm text-gray-500 italic">
-              Selecciona una categoría para ver subcategorías
-            </p>
-          )}
-
           {/* Emprendimientos dentro de la subcategoría seleccionada */}
           {breadcrumb.length === 2 && renderBusinessesOfCurrentSubcategory()}
         </div>
