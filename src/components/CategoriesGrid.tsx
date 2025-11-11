@@ -299,7 +299,7 @@ function CategoriesGrid({ initialCategoryId, hideHeader }: CategoriesGridProps) 
 
   return (
     <>
-    <section className={`px-4 sm:px-6 lg:px-8 bg-gray-50 py-8 ${hideHeader ? 'mt-16 md:mt-20' : ''}`}>
+    <section className={`px-4 sm:px-6 lg:px-8 bg-gray-50 py-8 ${hideHeader ? 'mt-16 md:mt-20 min-h-[20vh]' : ''}`}>
       <div className="max-w-7xl mx-auto">
         {!hideHeader && (
           <>
@@ -334,7 +334,7 @@ function CategoriesGrid({ initialCategoryId, hideHeader }: CategoriesGridProps) 
         )}
 
         {/* Breadcrumb and subcategories grid below */}
-        <div className="mt-6">
+        <div className={`mt-6 ${hideHeader ? 'min-h-[35vh]' : ''}`}>
           {breadcrumb.length > 0 && (
             <div className="flex flex-wrap items-center gap-2 text-sm sm:text-base mb-6">
               <button
