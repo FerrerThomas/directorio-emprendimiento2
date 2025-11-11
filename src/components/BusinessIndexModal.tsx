@@ -123,10 +123,10 @@ function BusinessIndexModal({ isOpen, categoryId, categoryName, onClose }: Props
                   className="p-4 hover:bg-gray-50 cursor-pointer transition-colors border-b"
                 >
                   <div className="flex items-start gap-4">
-                    {business.logo_url && (
+                    {business.portada_url && (
                       <div className="w-16 h-16 flex-shrink-0 rounded-lg overflow-hidden bg-gray-100">
                         <img
-                          src={business.logo_url}
+                          src={business.portada_url}
                           alt={business.nombre}
                           className="w-full h-full object-cover"
                         />

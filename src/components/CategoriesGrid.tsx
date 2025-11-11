@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronDown, ChevronRight, MapPin } from 'lucide-react';
 import * as lucideIcons from 'lucide-react';
-import { categoriesHierarchy, CategoryNode, colorCycle } from '../data/categoriesHierarchy';
+import { colorCycle } from '../data/categoriesHierarchy';
+import { supabase } from '../lib/supabase';
 import { businessesBySubcategory } from '../data/businessSamples';
 import BusinessDetail from './BusinessDetail';
 
@@ -43,15 +44,80 @@ function CategoriesGrid({ initialCategoryId, hideHeader }: CategoriesGridProps) 
   const [breadcrumb, setBreadcrumb] = useState<Breadcrumb[]>([]);
   const navigate = useNavigate();
   const [selectedBusiness, setSelectedBusiness] = useState<any | null>(null);
+  const [rootCategories, setRootCategories] = useState<any[]>([]);
+  const [childrenLv1, setChildrenLv1] = useState<any[]>([]);
+  const [childrenLv2, setChildrenLv2] = useState<any[]>([]);
+  const [businessItems, setBusinessItems] = useState<any[]>([]);
 
-  // Pre-selecciona categoría si viene por prop (ruta /categorias/:id)
+  // Cargar categorías raíz y preseleccionar si llega id
   useEffect(() => {
-    if (!initialCategoryId) return;
-    const cat = categoriesHierarchy.find((c) => c.id === initialCategoryId);
+    fetchRoot();
+    if (initialCategoryId) {
+      (async () => { await preloadPath(initialCategoryId); })();
+    }
+  }, [initialCategoryId]);
+  async function fetchRoot() {
+    const { data } = await supabase
+      .from('categorias')
+      .select('id,nombre,icon')
+      .is('parent_id', null)
+      .eq('is_active', true)
+      .order('position', { ascending: true })
+      .order('nombre', { ascending: true });
+    setRootCategories(data || []);
+  }
+
+  async function fetchChildren(parentId: string) {
+    const { data } = await supabase
+      .from('categorias')
+      .select('id,nombre,icon')
+      .eq('parent_id', parentId)
+      .eq('is_active', true)
+      .order('position', { ascending: true })
+      .order('nombre', { ascending: true });
+    return data || [];
+  }
+
+  async function preloadPath(catId: string) {
+    const { data: cat } = await supabase
+      .from('categorias')
+      .select('id,nombre')
+      .eq('id', catId)
+      .maybeSingle();
     if (!cat) return;
     setExpandedCategories(new Set([cat.id]));
     setBreadcrumb([{ id: cat.id, nombre: cat.nombre }]);
-  }, [initialCategoryId]);
+    const ch = await fetchChildren(cat.id);
+    setChildrenLv1(ch);
+    setChildrenLv2([]);
+  }
+
+  // Carga emprendimientos para una subcategoría (leaf) específica
+  async function loadBusinessesFor(subcatId: string) {
+    try {
+      const { data: links } = await supabase
+        .from('emprendimiento_categorias')
+        .select('emprendimiento_id')
+        .eq('categoria_id', subcatId);
+      const ids = (links || []).map((l: any) => l.emprendimiento_id);
+      if (ids.length > 0) {
+        const { data: emps } = await supabase
+          .from('emprendimientos')
+          .select('id,nombre,direccion,telefono,portada_url,descripcion_corta,descripcion_larga,redes')
+          .in('id', ids)
+          .eq('published', true)
+          .order('nombre', { ascending: true });
+        if (emps && emps.length > 0) {
+          setBusinessItems(emps);
+          return;
+        }
+      }
+      const { businessesBySubcategory } = await import('../data/businessSamples');
+      setBusinessItems(businessesBySubcategory[subcatId] || []);
+    } catch (e) {
+      setBusinessItems([]);
+    }
+  }
 
   const toggleExpanded = (categoryId: string) => {
     const newExpanded = new Set(expandedCategories);
@@ -63,18 +129,14 @@ function CategoriesGrid({ initialCategoryId, hideHeader }: CategoriesGridProps) 
     setExpandedCategories(newExpanded);
   };
 
-  const handleCategoryClick = (category: CategoryNode) => {
-    if (category.children && category.children.length > 0) {
-      // Navega a la sección dedicada de categorías
-      navigate(`/categorias/${category.id}`);
-    }
-  };
+  const handleCategoryClick = (category: any) => { navigate(`/categorias/${category.id}`); };
 
-  const handleSubcategoryClick = (subcategory: CategoryNode, parentCategory: Breadcrumb) => {
-    if (subcategory.children && subcategory.children.length > 0) {
-      toggleExpanded(subcategory.id);
-      setBreadcrumb([parentCategory, { id: subcategory.id, nombre: subcategory.nombre }]);
-    }
+  const handleSubcategoryClick = async (subcategory: any, parentCategory: Breadcrumb) => {
+    toggleExpanded(subcategory.id);
+    setBreadcrumb([parentCategory, { id: subcategory.id, nombre: subcategory.nombre }]);
+    const ch = await fetchChildren(subcategory.id);
+    setChildrenLv2(ch);
+    await loadBusinessesFor(subcategory.id);
   };
 
   const handleResetBreadcrumb = () => {
@@ -95,7 +157,7 @@ function CategoriesGrid({ initialCategoryId, hideHeader }: CategoriesGridProps) 
     return iconMap[iconName] || lucideIcons.Sparkles;
   };
 
-  const renderCategoryCard = (category: CategoryNode, isSubcategory: boolean = false) => {
+  const renderCategoryCard = (category: any, isSubcategory: boolean = false) => {
     const Icon = getIcon(category.icon);
     const isExpanded = expandedCategories.has(category.id);
     const hasChildren = !!(category.children && category.children.length > 0);
@@ -138,7 +200,7 @@ function CategoriesGrid({ initialCategoryId, hideHeader }: CategoriesGridProps) 
     );
   };
 
-  const renderMainCategoryChip = (category: CategoryNode) => {
+  const renderMainCategoryChip = (category: any) => {
     const Icon = getIcon(category.icon);
     const selected = breadcrumb[0]?.id === category.id;
     return (
@@ -162,7 +224,7 @@ function CategoriesGrid({ initialCategoryId, hideHeader }: CategoriesGridProps) 
   };
 
   // Subcategorías: nombre en MAYÚSCULAS, ancho uniforme y flecha al final
-  const renderSubcategoryItem = (subcategory: CategoryNode, parent: Breadcrumb) => {
+  const renderSubcategoryItem = (subcategory: any, parent: Breadcrumb) => {
     const hasChildren = !!(subcategory.children && subcategory.children.length > 0);
     return (
       <button
@@ -181,30 +243,21 @@ function CategoriesGrid({ initialCategoryId, hideHeader }: CategoriesGridProps) 
   const renderExpandedSubcategories = () => {
     if (breadcrumb.length === 0) return null;
 
-    const parentCategory = categoriesHierarchy.find((c) => c.id === breadcrumb[0].id);
-    if (!parentCategory || !parentCategory.children) return null;
-
-    const parent = { id: parentCategory.id, nombre: parentCategory.nombre };
-    return parentCategory.children.map((subcategory) => renderSubcategoryItem(subcategory, parent));
+    const parent = { id: breadcrumb[0].id, nombre: breadcrumb[0].nombre };
+    return childrenLv1.map((subcategory) => renderSubcategoryItem(subcategory, parent));
   };
 
   const renderSubcategoriesOfSubcategory = () => {
     if (breadcrumb.length !== 2) return null;
 
-    const parentCategory = categoriesHierarchy.find((c) => c.id === breadcrumb[0].id);
-    if (!parentCategory || !parentCategory.children) return null;
-
-    const subcategory = parentCategory.children.find((c) => c.id === breadcrumb[1].id);
-    if (!subcategory || !subcategory.children) return null;
-
-    const parent = { id: subcategory.id, nombre: subcategory.nombre };
-    return subcategory.children.map((subSubcategory) => renderSubcategoryItem(subSubcategory, parent));
+    const parent = { id: breadcrumb[1].id, nombre: breadcrumb[1].nombre };
+    return childrenLv2.map((subSubcategory) => renderSubcategoryItem(subSubcategory, parent));
   };
 
   const renderBusinessesOfCurrentSubcategory = () => {
     if (breadcrumb.length !== 2) return null;
     const subcatId = breadcrumb[1].id;
-    const items = businessesBySubcategory[subcatId] || [];
+    const items = businessItems;
     if (items.length === 0) return null;
 
     return (
@@ -228,7 +281,7 @@ function CategoriesGrid({ initialCategoryId, hideHeader }: CategoriesGridProps) 
                         {b.nombre}
                       </p>
                       {b.direccion && (
-                        <p className="text-xs sm:text-sm text-gray-600 truncate">␊
+                        <p className="text-xs sm:text-sm text-gray-600 truncate">📍
                           {b.direccion} <span className="text-pink-600 font-semibold">+ Info</span>
                         </p>
                       )}
@@ -260,7 +313,7 @@ function CategoriesGrid({ initialCategoryId, hideHeader }: CategoriesGridProps) 
           // In categories page: keep horizontal scroll in all breakpoints
           <div className="overflow-x-auto -mx-4 px-4 pb-4">
             <div className="flex gap-3 sm:gap-4">
-              {categoriesHierarchy.map((cat) => renderMainCategoryChip(cat))}
+              {rootCategories.map((cat) => renderMainCategoryChip(cat))}
             </div>
           </div>
         ) : (
@@ -268,12 +321,12 @@ function CategoriesGrid({ initialCategoryId, hideHeader }: CategoriesGridProps) 
           <>
             <div className="md:hidden">
               <div className="grid grid-cols-3 gap-3 sm:gap-4">
-                {categoriesHierarchy.map((cat) => renderMainCategoryChip(cat))}
+                {rootCategories.map((cat) => renderMainCategoryChip(cat))}
               </div>
             </div>
             <div className="hidden md:block overflow-x-auto -mx-4 px-4 pb-4">
-              <div className="flex gap-3 sm:gap-4">
-                {categoriesHierarchy.map((cat) => renderMainCategoryChip(cat))}
+              <div className="flex justify-center gap-3 sm:gap-4">
+                {rootCategories.map((cat) => renderMainCategoryChip(cat))}
               </div>
             </div>
           </>
