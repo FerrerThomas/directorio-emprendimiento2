@@ -174,7 +174,7 @@ function CategoriesGrid({ initialCategoryId, hideHeader }: CategoriesGridProps) 
             handleCategoryClick(category);
           }
         }}
-        className={`bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-lg hover:border-pink-300 transition-all duration-300 ${
+        className={`bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-lg hover:border-violet-300 transition-all duration-300 ${
           hasChildren ? 'cursor-pointer group' : 'opacity-75'
         }`}
       >
@@ -190,9 +190,9 @@ function CategoriesGrid({ initialCategoryId, hideHeader }: CategoriesGridProps) 
           {hasChildren && (
             <div className="flex-shrink-0">
               {isExpanded ? (
-                <ChevronDown className="w-5 h-5 text-pink-600" />
+                <ChevronDown className="w-5 h-5 text-violet-600" />
               ) : (
-                <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-pink-600 transition-colors" />
+                <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-violet-600 transition-colors" />
               )}
             </div>
           )}
@@ -209,7 +209,7 @@ function CategoriesGrid({ initialCategoryId, hideHeader }: CategoriesGridProps) 
         key={category.id}
         onClick={() => handleCategoryClick(category)}
         className={`shrink-0 w-28 sm:w-32 aspect-square bg-white rounded-xl border transition-all ${
-          selected ? 'border-pink-400 shadow-md' : 'border-gray-200 hover:border-pink-300 hover:shadow-sm'
+          selected ? 'border-violet-400 shadow-md' : 'border-gray-200 hover:border-violet-300 hover:shadow-sm'
         }`}
       >
         <div className="h-full w-full flex flex-col items-center justify-center text-center p-3">
@@ -236,7 +236,7 @@ function CategoriesGrid({ initialCategoryId, hideHeader }: CategoriesGridProps) 
         <span className="uppercase font-semibold text-gray-800 text-base sm:text-lg truncate">
           {subcategory.nombre}
         </span>
-        <ChevronRight className={`w-5 h-5 ${hasChildren ? 'text-pink-600' : 'text-gray-300'} transition-transform group-hover:translate-x-0.5`}/>
+        <ChevronRight className={`w-5 h-5 text-violet-600 transition-transform group-hover:translate-x-0.5`}/>
       </button>
     );
   };
@@ -274,7 +274,7 @@ function CategoriesGrid({ initialCategoryId, hideHeader }: CategoriesGridProps) 
                     onClick={() => setSelectedBusiness(b)}
                     className={`w-full py-3 md:py-4 flex items-start gap-3 sm:gap-4 text-left group ${idx2 < arr.length - 1 ? 'border-b border-gray-200' : ''}`}
                   >
-                    <div className="pt-0.5 text-pink-600">
+                    <div className="pt-0.5 text-violet-600">
                       <MapPin className="w-6 h-6" />
                     </div>
                     <div className="min-w-0 flex-1">
@@ -283,11 +283,11 @@ function CategoriesGrid({ initialCategoryId, hideHeader }: CategoriesGridProps) 
                       </p>
                       {b.direccion && (
                         <p className="text-xs sm:text-sm text-gray-600 truncate">📍
-                          {b.direccion} <span className="text-pink-600 font-semibold">+ Info</span>
+                          {b.direccion} <span className="text-violet-600 font-semibold">+ Info</span>
                         </p>
                       )}
                     </div>
-                    <ChevronRight className="w-5 h-5 text-gray-300 group-hover:text-pink-600 transition-colors" />
+                    <ChevronRight className="w-5 h-5 text-gray-300 group-hover:text-violet-600 transition-colors" />
                   </button>
                 ))}
             </div>
@@ -299,7 +299,7 @@ function CategoriesGrid({ initialCategoryId, hideHeader }: CategoriesGridProps) 
 
   return (
     <>
-    <section className={`px-4 sm:px-6 lg:px-8 bg-gray-50 py-8 ${hideHeader ? 'mt-16 md:mt-20 min-h-[20vh]' : ''}`}>
+    <section className={`px-4 sm:px-6 lg:px-8 bg-gray-50 ${hideHeader ? 'mt-16 md:mt-20 min-h-[20vh] py-8' : 'pt-4 sm:pt-5 md:pt-6 pb-8'}`}>
       <div className="max-w-7xl mx-auto">
         {!hideHeader && (
           <>
@@ -339,16 +339,16 @@ function CategoriesGrid({ initialCategoryId, hideHeader }: CategoriesGridProps) 
             <div className="flex flex-wrap items-center gap-2 text-sm sm:text-base mb-6">
               <button
                 onClick={() => handleBreadcrumbClick(-1)}
-                className="text-pink-600 hover:text-pink-700 font-semibold transition-colors"
+                className="text-violet-600 hover:text-violet-700 font-semibold transition-colors"
               >
                 Categorías
               </button>
               {breadcrumb.map((item, index) => (
                 <div key={item.id} className="flex items-center gap-2">
-                  <span className="text-gray-400">&gt;</span>
+                  <span className="text-violet-400">&gt;</span>
                   <button
                     onClick={() => handleBreadcrumbClick(index)}
-                    className="text-gray-700 hover:text-pink-600 font-semibold transition-colors truncate"
+                    className="text-gray-700 hover:text-violet-600 font-semibold transition-colors truncate"
                   >
                     {item.nombre}
                   </button>
