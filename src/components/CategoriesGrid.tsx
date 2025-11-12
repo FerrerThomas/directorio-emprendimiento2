@@ -181,7 +181,7 @@ function CategoriesGrid({ initialCategoryId, hideHeader }: CategoriesGridProps) 
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-3 flex-1 min-w-0">
             <div className={`${color} group-hover:scale-110 transition-transform duration-300 flex-shrink-0`}>
-              <Icon className="w-8 h-8 sm:w-10 sm:h-10" strokeWidth={1.5} />
+              <Icon className="w-12 h-12 sm:w-14 sm:h-14" strokeWidth={1.5} />
             </div>
             <h3 className="text-sm sm:text-base font-semibold text-gray-800 truncate">
               {category.nombre}
@@ -214,7 +214,7 @@ function CategoriesGrid({ initialCategoryId, hideHeader }: CategoriesGridProps) 
       >
         <div className="h-full w-full flex flex-col items-center justify-center text-center p-3">
           <div className={`${colorCycle[0]} mb-2`}>
-            <Icon className="w-8 h-8 sm:w-10 sm:h-10" strokeWidth={1.6} />
+            <Icon className="w-12 h-12 sm:w-14 sm:h-14" strokeWidth={1.6} />
           </div>
           <p className="text-xs sm:text-sm font-semibold text-gray-800 leading-tight">
             {category.nombre}
