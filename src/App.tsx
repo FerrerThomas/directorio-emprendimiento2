@@ -4,6 +4,7 @@ import CategoriesGrid from './components/CategoriesGrid';
 import HighlightedGrid from './components/HighlightedGrid';
 import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom';
 import Footer from './components/Footer';
+import ContactSection from './components/ContactSection';
 
 function HomePage() {
   return (
@@ -12,6 +13,7 @@ function HomePage() {
       <Carousel />
       <CategoriesGrid />
       <HighlightedGrid />
+      <ContactSection />
       <Footer />
     </>
   );
@@ -24,6 +26,7 @@ function CategoriesPage() {
       <Navbar />
       <CategoriesGrid initialCategoryId={id} hideHeader />
       <HighlightedGrid />
+      <ContactSection />
       <Footer />
     </>
   );
