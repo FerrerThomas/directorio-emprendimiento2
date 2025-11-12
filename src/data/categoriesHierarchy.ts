@@ -5,7 +5,7 @@ export type CategoryNode = {
   children?: CategoryNode[];
 };
 
-export const colorCycle = ['text-pink-600', 'text-orange-600'];
+export const colorCycle = ['text-violet-600', 'text-fuchsia-600'];
 
 export const categoriesHierarchy: CategoryNode[] = [
   {

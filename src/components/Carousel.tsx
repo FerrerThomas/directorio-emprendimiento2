@@ -67,7 +67,7 @@ function Carousel() {
 
   if (slides.length === 0) {
     return (
-      <div className="relative mt-16 md:mt-20 h-56 md:h-[600px] bg-gradient-to-r from-pink-500 to-orange-400 flex items-center justify-center">
+      <div className="relative mt-16 md:mt-20 h-56 md:h-[600px] bg-gradient-to-r from-violet-500 to-fuchsia-400 flex items-center justify-center">
         <div className="text-center text-white">
           <p className="text-xl">No hay emprendimientos destacados por el momento</p>
         </div>

@@ -68,7 +68,7 @@ function HighlightedGrid() {
           <button
             key={item.id}
             onClick={() => openBusiness(item.id)}
-            className="rounded-xl overflow-hidden border border-gray-200 bg-white text-left focus:outline-none focus:ring-2 focus:ring-pink-500 transition-shadow hover:shadow-md"
+            className="rounded-xl overflow-hidden border border-gray-200 bg-white text-left focus:outline-none focus:ring-2 focus:ring-violet-500 transition-shadow hover:shadow-md"
           >
             <div className="aspect-video w-full bg-gray-100">
               <img

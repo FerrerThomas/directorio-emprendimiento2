@@ -64,7 +64,7 @@ function BusinessDetail({ business, onBack }: Props) {
           <div className="space-y-4 mb-8">
             {business.direccion && (
               <div className="flex items-start gap-3 text-gray-700">
-                <MapPin className="w-5 h-5 text-pink-600 flex-shrink-0 mt-0.5" />
+                <MapPin className="w-5 h-5 text-violet-600 flex-shrink-0 mt-0.5" />
                 <div>
                   <p className="font-semibold">Dirección</p>
                   <p>{business.direccion}</p>
@@ -74,10 +74,10 @@ function BusinessDetail({ business, onBack }: Props) {
 
             {business.telefono && (
               <div className="flex items-center gap-3 text-gray-700">
-                <Phone className="w-5 h-5 text-pink-600 flex-shrink-0" />
+                <Phone className="w-5 h-5 text-violet-600 flex-shrink-0" />
                 <div>
                   <p className="font-semibold">Teléfono</p>
-                  <a href={`tel:${business.telefono}`} className="hover:text-pink-600 transition-colors">
+                  <a href={`tel:${business.telefono}`} className="hover:text-violet-600 transition-colors">
                     {business.telefono}
                   </a>
                 </div>
@@ -86,10 +86,10 @@ function BusinessDetail({ business, onBack }: Props) {
 
             {business.email && (
               <div className="flex items-center gap-3 text-gray-700">
-                <Mail className="w-5 h-5 text-pink-600 flex-shrink-0" />
+                <Mail className="w-5 h-5 text-violet-600 flex-shrink-0" />
                 <div>
                   <p className="font-semibold">Email</p>
-                  <a href={`mailto:${business.email}`} className="hover:text-pink-600 transition-colors break-all">
+                  <a href={`mailto:${business.email}`} className="hover:text-violet-600 transition-colors break-all">
                     {business.email}
                   </a>
                 </div>
@@ -100,7 +100,7 @@ function BusinessDetail({ business, onBack }: Props) {
           {business.descripcion_larga && (
             <div className="mb-8">
               <div className="flex items-center gap-2 mb-3">
-                <Briefcase className="w-5 h-5 text-pink-600" />
+                <Briefcase className="w-5 h-5 text-violet-600" />
                 <h2 className="text-xl font-bold text-gray-900">Descripción</h2>
               </div>
               <p className="text-gray-700 leading-relaxed bg-gray-50 p-4 rounded-lg whitespace-pre-wrap">
@@ -112,14 +112,14 @@ function BusinessDetail({ business, onBack }: Props) {
           {business.redes && Object.keys(business.redes).length > 0 && (
             <div className="mb-8">
               <h3 className="text-lg font-bold text-gray-900 mb-4">Síguenos en redes sociales</h3>
-              <div className="flex gap-4 flex-wrap">
+                <div className="flex gap-4 flex-wrap">
                 {Object.entries(business.redes).map(([social, url]) => (
                   <a
                     key={social}
                     href={url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2 bg-pink-100 hover:bg-pink-200 text-pink-700 rounded-lg transition-colors"
+                    className="flex items-center gap-2 px-4 py-2 bg-violet-100 hover:bg-violet-200 text-violet-700 rounded-lg transition-colors"
                   >
                     {getSocialIcon(social)}
                     <span className="capitalize">{social}</span>
@@ -131,7 +131,7 @@ function BusinessDetail({ business, onBack }: Props) {
 
           <button
             onClick={onBack}
-            className="w-full bg-gradient-to-r from-pink-600 to-orange-500 text-white font-semibold py-3 rounded-lg hover:shadow-lg transition-all"
+            className="w-full bg-gradient-to-r from-violet-600 to-fuchsia-500 text-white font-semibold py-3 rounded-lg hover:shadow-lg transition-all"
           >
             Volver
           </button>

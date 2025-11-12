@@ -299,7 +299,7 @@ function CategoriesGrid({ initialCategoryId, hideHeader }: CategoriesGridProps) 
 
   return (
     <>
-    <section className={`px-4 sm:px-6 lg:px-8 bg-gray-50 ${hideHeader ? 'mt-16 md:mt-20 min-h-[20vh] py-8' : 'pt-4 sm:pt-5 md:pt-6 pb-8'}`}>
+    <section className={`px-4 sm:px-6 lg:px-8 bg-gray-50 ${hideHeader ? 'mt-16 md:mt-20 min-h-[20vh] py-8' : 'pt-4 sm:pt-5 md:pt-2 pb-8'}`}>
       <div className="max-w-7xl mx-auto">
         {!hideHeader && (
           <>

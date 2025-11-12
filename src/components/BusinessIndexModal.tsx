@@ -81,7 +81,7 @@ function BusinessIndexModal({ isOpen, categoryId, categoryName, onClose }: Props
   return (
     <div className="fixed inset-x-0 top-16 md:top-20 bottom-0 bg-black/50 z-40 flex items-center justify-center p-4">
       <div className="bg-white rounded-lg max-w-4xl w-full max-h-full overflow-hidden flex flex-col">
-        <div className="flex items-center justify-between bg-gradient-to-r from-pink-600 to-orange-500 text-white p-6">
+        <div className="flex items-center justify-between bg-gradient-to-r from-violet-600 to-fuchsia-500 text-white p-6">
           <h2 className="text-2xl font-bold">{categoryName}</h2>
           <button
             onClick={onClose}
@@ -97,7 +97,7 @@ function BusinessIndexModal({ isOpen, categoryId, categoryName, onClose }: Props
             placeholder="Buscar por nombre o dirección..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
           />
         </div>
 
@@ -133,23 +133,23 @@ function BusinessIndexModal({ isOpen, categoryId, categoryName, onClose }: Props
                       </div>
                     )}
                     <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900 hover:text-pink-600 transition-colors">
+                      <h3 className="font-semibold text-gray-900 hover:text-violet-600 transition-colors">
                         {business.nombre}
                       </h3>
                       {business.direccion && (
                         <div className="flex items-center gap-2 mt-2 text-gray-600 text-sm">
-                          <MapPin className="w-4 h-4 text-pink-600" />
+                          <MapPin className="w-4 h-4 text-violet-600" />
                           <p>{business.direccion}</p>
                         </div>
                       )}
                       {business.telefono && (
                         <div className="flex items-center gap-2 mt-1 text-gray-600 text-sm">
-                          <Phone className="w-4 h-4 text-pink-600" />
+                          <Phone className="w-4 h-4 text-violet-600" />
                           <p>{business.telefono}</p>
                         </div>
                       )}
                     </div>
-                    <div className="ml-4 text-pink-600 font-medium text-sm flex-shrink-0">Ver más →</div>
+                    <div className="ml-4 text-violet-600 font-medium text-sm flex-shrink-0">Ver más →</div>
                   </div>
                 </div>
               ))}
