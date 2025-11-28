@@ -1,4 +1,4 @@
-import { ArrowLeft, MapPin, Phone, Mail, Globe, Briefcase, Facebook, Instagram, Linkedin } from 'lucide-react';
+import { ArrowLeft, MapPin, Phone, Globe, Briefcase, Facebook, Instagram, Linkedin } from 'lucide-react';
 
 interface Emprendimiento {
   id: string;
@@ -84,17 +84,7 @@ function BusinessDetail({ business, onBack }: Props) {
               </div>
             )}
 
-            {business.email && (
-              <div className="flex items-center gap-3 text-gray-700">
-                <Mail className="w-5 h-5 text-violet-600 flex-shrink-0" />
-                <div>
-                  <p className="font-semibold">Email</p>
-                  <a href={`mailto:${business.email}`} className="hover:text-violet-600 transition-colors break-all">
-                    {business.email}
-                  </a>
-                </div>
-              </div>
-            )}
+
           </div>
 
           {business.descripcion_larga && (
@@ -112,19 +102,40 @@ function BusinessDetail({ business, onBack }: Props) {
           {business.redes && Object.keys(business.redes).length > 0 && (
             <div className="mb-8">
               <h3 className="text-lg font-bold text-gray-900 mb-4">Síguenos en redes sociales</h3>
-                <div className="flex gap-4 flex-wrap">
-                {Object.entries(business.redes).map(([social, url]) => (
-                  <a
-                    key={social}
-                    href={url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2 bg-violet-100 hover:bg-violet-200 text-violet-700 rounded-lg transition-colors"
-                  >
-                    {getSocialIcon(social)}
-                    <span className="capitalize">{social}</span>
-                  </a>
-                ))}
+              <div className="flex gap-4 flex-wrap">
+                {Object.entries(business.redes)
+                  .filter(([_, url]) => url && url.trim() !== '') // Filter empty URLs
+                  .filter(([key]) => key !== 'google_maps') // Exclude map from buttons
+                  .map(([social, url]) => (
+                    <a
+                      key={social}
+                      href={url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 px-4 py-2 bg-violet-100 hover:bg-violet-200 text-violet-700 rounded-lg transition-colors"
+                    >
+                      {getSocialIcon(social)}
+                      <span className="capitalize">{social}</span>
+                    </a>
+                  ))}
+              </div>
+            </div>
+          )}
+
+          {/* Google Maps Embed */}
+          {business.redes?.google_maps && (
+            <div className="mb-8">
+              <h3 className="text-lg font-bold text-gray-900 mb-4">Ubicación</h3>
+              <div className="w-full h-64 md:h-80 rounded-lg overflow-hidden shadow-md">
+                <iframe
+                  src={business.redes.google_maps}
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                ></iframe>
               </div>
             </div>
           )}

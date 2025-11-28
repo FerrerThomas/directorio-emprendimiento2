@@ -1,0 +1,33 @@
+id,nombre,descripcion,created_at,icon,parent_id,slug,position,is_active
+2836fedd-e19e-471e-8a12-c207c5212ac3,Contadores,,2025-11-08 21:11:51.419738+00,sparkles,7b8b4bf7-7c99-4ad4-9259-1ccfa842a1f6,contadores,2,true
+2dc4fb8f-d768-4cb5-8263-631f06dc6650,Fábricas,,2025-11-08 21:11:51.419738+00,factory,,fabricas,1,true
+30286cfe-6bac-4140-9aaf-2a52b3b7b96a,Ferreterías,,2025-11-08 21:11:51.419738+00,wrench,99126f78-7b9f-45fa-b2c8-c0e8bb4d8d1c,ferreterias,3,true
+33179ba2-446d-44ed-af48-98ec35ea3702,Clínicas,,2025-11-08 21:11:51.419738+00,sparkles,9c476ae0-70d2-4eb5-aa5b-350186ea0c38,clinicas,1,true
+3a4a6a68-d7e2-41ef-a1e3-b0f67c586da4,Educación,,2025-11-08 21:11:51.419738+00,graduation-cap,,educacion,6,true
+49db0aeb-c1cb-4330-8178-11b010a59975,Odontólogos,,2025-11-08 21:11:51.419738+00,sparkles,e469d6c3-a5bc-49d6-942b-66dba0b5e2f4,odontologos,3,true
+4a364b8d-9709-4a14-a477-20c79420b39a,Traumatólogos,,2025-11-08 21:11:51.419738+00,sparkles,e469d6c3-a5bc-49d6-942b-66dba0b5e2f4,traumatologos,4,true
+4b5e37e4-ec4e-4842-99aa-1af5eb89a865,Escuelas,,2025-11-08 21:11:51.419738+00,sparkles,3a4a6a68-d7e2-41ef-a1e3-b0f67c586da4,escuelas,1,true
+5c94461f-2734-4085-81c2-36d7b3c46f85,Seguridad,,2025-11-08 21:11:51.419738+00,shield-alert,79c1315a-7821-436c-a5ff-fb727fd62565,seguridad,2,true
+629206b0-33d4-44a0-9678-c2b9fa8c85f4,Arquitectos,,2025-11-08 21:11:51.419738+00,sparkles,7b8b4bf7-7c99-4ad4-9259-1ccfa842a1f6,arquitectos,3,true
+66c323b1-fdba-45aa-b6f1-a498906cd57a,Lubricantes,,2025-11-08 21:11:51.419738+00,sparkles,6b225eea-ba93-4985-af56-28ff43a38cf3,lubricantes,3,true
+672cc2e7-9163-4d12-b9d6-857e9ef25036,Laboratorios,,2025-11-08 21:11:51.419738+00,sparkles,9c476ae0-70d2-4eb5-aa5b-350186ea0c38,laboratorios,2,true
+6b225eea-ba93-4985-af56-28ff43a38cf3,Repuestos,,2025-11-08 21:11:51.419738+00,wrench,fe48964c-6276-49e6-8806-987e3cffd707,repuestos,2,true
+700a8965-8e20-48fa-a8a9-ab1a3035a4a7,Supermercados,,2025-11-08 21:11:51.419738+00,store,99126f78-7b9f-45fa-b2c8-c0e8bb4d8d1c,supermercados,1,true
+733963fa-a412-4312-8a06-fd6423d4b672,Neumáticos,,2025-11-08 21:11:51.419738+00,sparkles,6b225eea-ba93-4985-af56-28ff43a38cf3,neumaticos,2,true
+79c1315a-7821-436c-a5ff-fb727fd62565,Servicios,,2025-11-08 21:11:51.419738+00,briefcase,,servicios,3,true
+7a5f4c0c-52e9-4a38-978f-840e51f72e27,Clínicos,,2025-11-08 21:11:51.419738+00,sparkles,e469d6c3-a5bc-49d6-942b-66dba0b5e2f4,clinicos,1,true
+7b8b4bf7-7c99-4ad4-9259-1ccfa842a1f6,Profesionales,,2025-11-08 21:11:51.419738+00,briefcase,,profesionales,4,true
+892d2505-0b97-4741-b1a9-cf8c7a1ec372,Concesionarias,,2025-11-08 21:11:51.419738+00,store,fe48964c-6276-49e6-8806-987e3cffd707,concesionarias,1,true
+8bced28e-4258-4e21-b54e-d04c05b55118,Institutos,,2025-11-08 21:11:51.419738+00,sparkles,3a4a6a68-d7e2-41ef-a1e3-b0f67c586da4,institutos,2,true
+97900a9d-98a2-49c6-8958-b9d7b3d69ce5,Kioscos,,2025-11-08 21:11:51.419738+00,store,99126f78-7b9f-45fa-b2c8-c0e8bb4d8d1c,kioscos,2,true
+98178d79-8df6-4156-bf81-526df53fd759,Talleres,,2025-11-08 21:11:51.419738+00,wrench,fe48964c-6276-49e6-8806-987e3cffd707,talleres,3,true
+99126f78-7b9f-45fa-b2c8-c0e8bb4d8d1c,Comercios,,2025-11-08 21:11:51.419738+00,store,,comercios,2,true
+9c476ae0-70d2-4eb5-aa5b-350186ea0c38,Salud,,2025-11-08 21:11:51.419738+00,stethoscope,79c1315a-7821-436c-a5ff-fb727fd62565,salud,1,true
+a4e7ebf7-cef8-43bf-9bb7-6d9241a16100,Tecnología,,2025-11-08 21:11:51.419738+00,plug-2,99126f78-7b9f-45fa-b2c8-c0e8bb4d8d1c,tecnologia,4,true
+b3b9b69f-094e-4943-bfcc-f0f8eabf9853,Textil,,2025-11-08 21:11:51.419738+00,briefcase,2dc4fb8f-d768-4cb5-8263-631f06dc6650,textil,2,true
+c1fed6db-d1a8-4d3b-996a-55e5e4f3a0a9,Pediatras,,2025-11-08 21:11:51.419738+00,sparkles,e469d6c3-a5bc-49d6-942b-66dba0b5e2f4,pediatras,2,true
+c6510179-e025-4877-b50f-db40d1e41262,Abogados,,2025-11-08 21:11:51.419738+00,sparkles,7b8b4bf7-7c99-4ad4-9259-1ccfa842a1f6,abogados,1,true
+cde16ef3-9058-4645-8aa8-002102088af3,Baterías,,2025-11-08 21:11:51.419738+00,sparkles,6b225eea-ba93-4985-af56-28ff43a38cf3,baterias,1,true
+d0bdd06c-5e44-490b-b1de-4b924d0ab53f,Ingenieros,,2025-11-08 21:11:51.419738+00,sparkles,7b8b4bf7-7c99-4ad4-9259-1ccfa842a1f6,ingenieros,4,true
+e469d6c3-a5bc-49d6-942b-66dba0b5e2f4,Médicos,,2025-11-08 21:11:51.419738+00,stethoscope,,medicos,5,true
+fe48964c-6276-49e6-8806-987e3cffd707,"Autos, Camiones y Motos",,2025-11-08 21:11:51.419738+00,truck,2dc4fb8f-d768-4cb5-8263-631f06dc6650,autos-camiones-motos,1,true
