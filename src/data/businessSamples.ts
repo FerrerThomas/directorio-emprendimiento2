@@ -1,6 +1,11 @@
-import { BusinessSample } from './businessSamples';
-
-export type { BusinessSample };
+export interface BusinessSample {
+  id: string;
+  nombre: string;
+  direccion: string;
+  telefono: string;
+  portada_url?: string;
+  categoria_id: string;
+}
 
 // Mock de emprendimientos por subcategoría (ids coinciden con categoriesHierarchy)
 export const businessesBySubcategory: Record<string, BusinessSample[]> = {
