@@ -4,7 +4,7 @@ function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
-            <h3 className="text-white font-semibold mb-3">Guia Local</h3>
+            <img src="/logo.png" alt="Guia Local" className="h-8 w-auto object-contain mb-3" />
             <p className="text-sm text-gray-400">
               Descubre emprendimientos y servicios locales organizados por categorías.
             </p>
