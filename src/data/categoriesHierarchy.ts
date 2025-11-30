@@ -65,16 +65,16 @@ export const categoriesHierarchy: CategoryNode[] = [
           { id: '672cc2e7-9163-4d12-b9d6-857e9ef25036', nombre: 'Laboratorios', icon: 'sparkles' },
         ],
       },
-      {
-        id: '3a4a6a68-d7e2-41ef-a1e3-b0f67c586da4', // Educacion (Moved here or root? CSV says root. But TS had it in Servicios? No, TS had it in Servicios. CSV says parent is null. I will follow CSV but put it in root list below.)
-        nombre: 'Educación', // Wait, in TS it was under Servicios. In CSV parent is null. I will put it as root to match CSV.
-        icon: 'graduation-cap',
-        children: [
-          { id: '4b5e37e4-ec4e-4842-99aa-1af5eb89a865', nombre: 'Escuelas', icon: 'sparkles' },
-          { id: '8bced28e-4258-4e21-b54e-d04c05b55118', nombre: 'Institutos', icon: 'sparkles' },
-        ],
-      },
       { id: '5c94461f-2734-4085-81c2-36d7b3c46f85', nombre: 'Seguridad', icon: 'shield-alert' },
+    ],
+  },
+  {
+    id: '3a4a6a68-d7e2-41ef-a1e3-b0f67c586da4',
+    nombre: 'Educación',
+    icon: 'graduation-cap',
+    children: [
+      { id: '4b5e37e4-ec4e-4842-99aa-1af5eb89a865', nombre: 'Escuelas', icon: 'sparkles' },
+      { id: '8bced28e-4258-4e21-b54e-d04c05b55118', nombre: 'Institutos', icon: 'sparkles' },
     ],
   },
   {

@@ -174,9 +174,8 @@ function CategoriesGrid({ initialCategoryId, hideHeader }: CategoriesGridProps) 
             handleCategoryClick(category);
           }
         }}
-        className={`bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-lg hover:border-violet-300 transition-all duration-300 ${
-          hasChildren ? 'cursor-pointer group' : 'opacity-75'
-        }`}
+        className={`bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-lg hover:border-violet-300 transition-all duration-300 ${hasChildren ? 'cursor-pointer group' : 'opacity-75'
+          }`}
       >
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-3 flex-1 min-w-0">
@@ -208,9 +207,8 @@ function CategoriesGrid({ initialCategoryId, hideHeader }: CategoriesGridProps) 
       <button
         key={category.id}
         onClick={() => handleCategoryClick(category)}
-        className={`shrink-0 w-28 sm:w-32 aspect-square bg-white rounded-xl border transition-all ${
-          selected ? 'border-violet-400 shadow-md' : 'border-gray-200 hover:border-violet-300 hover:shadow-sm'
-        }`}
+        className={`shrink-0 w-28 sm:w-32 aspect-square bg-white rounded-xl border transition-all ${selected ? 'border-violet-400 shadow-md' : 'border-gray-200 hover:border-violet-300 hover:shadow-sm'
+          }`}
       >
         <div className="h-full w-full flex flex-col items-center justify-center text-center p-3">
           <div className={`${colorCycle[0]} mb-2`}>
@@ -236,7 +234,7 @@ function CategoriesGrid({ initialCategoryId, hideHeader }: CategoriesGridProps) 
         <span className="uppercase font-semibold text-gray-800 text-base sm:text-lg truncate">
           {subcategory.nombre}
         </span>
-        <ChevronRight className={`w-5 h-5 text-violet-600 transition-transform group-hover:translate-x-0.5`}/>
+        <ChevronRight className={`w-5 h-5 text-violet-600 transition-transform group-hover:translate-x-0.5`} />
       </button>
     );
   };
@@ -264,7 +262,7 @@ function CategoriesGrid({ initialCategoryId, hideHeader }: CategoriesGridProps) 
     return (
       <div className="mt-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-2 sm:gap-3 md:gap-8 lg:gap-8">
-          {[0,1,2].map((col) => (
+          {[0, 1, 2].map((col) => (
             <div key={col} className="">
               {items
                 .filter((_, idx) => idx % 3 === col)
@@ -299,86 +297,85 @@ function CategoriesGrid({ initialCategoryId, hideHeader }: CategoriesGridProps) 
 
   return (
     <>
-    <section className={`px-4 sm:px-6 lg:px-8 bg-gray-50 ${hideHeader ? 'mt-16 md:mt-20 min-h-[20vh] py-8' : 'pt-4 sm:pt-5 md:pt-2 pb-8'}`}>
-      <div className="max-w-7xl mx-auto">
-        {!hideHeader && (
-          <>
+      <section className={`px-4 sm:px-6 lg:px-8 bg-gray-50 ${hideHeader ? 'mt-16 md:mt-20 min-h-[10vh] py-8' : 'pt-4 sm:pt-5 md:pt-2 pb-8'}`}>
+        <div className="max-w-7xl mx-auto">
+          {!hideHeader && (
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900">
               ¿Qué estás buscando hoy?
             </h2>
-          </>
-        )}
+          )}
 
-        {/* Main categories: Home (no scroll on mobile) vs /categorias (scroll) */}
-        {hideHeader ? (
-          // In categories page: keep horizontal scroll in all breakpoints
-          <div className="overflow-x-auto -mx-4 px-4 pb-4">
-            <div className="flex gap-3 sm:gap-4">
-              {rootCategories.map((cat) => renderMainCategoryChip(cat))}
-            </div>
-          </div>
-        ) : (
-          // In home: mobile grid of 3 per row; keep scroll on md+
+          {/* Main categories: Desktop always centered, Mobile varies */}
           <>
-            <div className="md:hidden">
-              <div className="grid grid-cols-3 gap-3 sm:gap-4">
-                {rootCategories.map((cat) => renderMainCategoryChip(cat))}
-              </div>
-            </div>
+            {/* Desktop: Always Centered Row */}
             <div className="hidden md:block overflow-x-auto -mx-4 px-4 pb-4">
               <div className="flex justify-center gap-3 sm:gap-4">
                 {rootCategories.map((cat) => renderMainCategoryChip(cat))}
               </div>
             </div>
-          </>
-        )}
 
-        {/* Breadcrumb and subcategories grid below */}
-        <div className={`mt-6 ${hideHeader ? 'min-h-[35vh]' : ''}`}>
-          {breadcrumb.length > 0 && (
-            <div className="flex flex-wrap items-center gap-2 text-sm sm:text-base mb-6">
-              <button
-                onClick={() => handleBreadcrumbClick(-1)}
-                className="text-violet-600 hover:text-violet-700 font-semibold transition-colors"
-              >
-                Categorías
-              </button>
-              {breadcrumb.map((item, index) => (
-                <div key={item.id} className="flex items-center gap-2">
-                  <span className="text-violet-400">&gt;</span>
-                  <button
-                    onClick={() => handleBreadcrumbClick(index)}
-                    className="text-gray-700 hover:text-violet-600 font-semibold transition-colors truncate"
-                  >
-                    {item.nombre}
-                  </button>
+            {/* Mobile: Grid on Home, Scroll on Categories Page */}
+            <div className="md:hidden">
+              {hideHeader ? (
+                <div className="overflow-x-auto -mx-4 px-4 pb-4">
+                  <div className="flex gap-3 sm:gap-4">
+                    {rootCategories.map((cat) => renderMainCategoryChip(cat))}
+                  </div>
                 </div>
-              ))}
+              ) : (
+                <div className="grid grid-cols-3 gap-3 sm:gap-4">
+                  {rootCategories.map((cat) => renderMainCategoryChip(cat))}
+                </div>
+              )}
             </div>
-          )}
+          </>
 
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={breadcrumb.map(b=>b.id).join("-")}
-              initial={{opacity:0, y:8}}
-              animate={{opacity:1, y:0}}
-              exit={{opacity:0, y:-8}}
-              transition={{duration:0.2}}
-              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6"
-            >
-              {breadcrumb.length === 1 && renderExpandedSubcategories()}
-              {breadcrumb.length === 2 && renderSubcategoriesOfSubcategory()}
-            </motion.div>
-          </AnimatePresence>
+          {/* Breadcrumb and subcategories grid below */}
+          <div className={`mt-6 ${hideHeader ? 'min-h-[15vh]' : ''}`}>
+            {breadcrumb.length > 0 && (
+              <div className="flex flex-wrap items-center gap-2 text-sm sm:text-base mb-6">
+                <button
+                  onClick={() => handleBreadcrumbClick(-1)}
+                  className="text-violet-600 hover:text-violet-700 font-semibold transition-colors"
+                >
+                  Categorías
+                </button>
+                {breadcrumb.map((item, index) => (
+                  <div key={item.id} className="flex items-center gap-2">
+                    <span className="text-violet-400">&gt;</span>
+                    <button
+                      onClick={() => handleBreadcrumbClick(index)}
+                      className="text-gray-700 hover:text-violet-600 font-semibold transition-colors truncate"
+                    >
+                      {item.nombre}
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
 
-          {/* Emprendimientos dentro de la subcategoría seleccionada */}
-          {breadcrumb.length === 2 && renderBusinessesOfCurrentSubcategory()}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={breadcrumb.map(b => b.id).join("-")}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.2 }}
+                className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6"
+              >
+                {breadcrumb.length === 1 && renderExpandedSubcategories()}
+                {breadcrumb.length === 2 && renderSubcategoriesOfSubcategory()}
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Emprendimientos dentro de la subcategoría seleccionada */}
+            {breadcrumb.length === 2 && renderBusinessesOfCurrentSubcategory()}
+          </div>
         </div>
-      </div>
-    </section>
-    {selectedBusiness && (
-      <BusinessDetail business={selectedBusiness} onBack={() => setSelectedBusiness(null)} />
-    )}
+      </section>
+      {selectedBusiness && (
+        <BusinessDetail business={selectedBusiness} onBack={() => setSelectedBusiness(null)} />
+      )}
     </>
   );
 }

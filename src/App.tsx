@@ -34,9 +34,12 @@ function CategoriesPage() {
   );
 }
 
+import ScrollToAnchor from './components/ScrollToAnchor';
+
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToAnchor />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/categorias/:id" element={<CategoriesPage />} />

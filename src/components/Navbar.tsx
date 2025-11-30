@@ -38,21 +38,21 @@ function Navbar() {
           </div>
 
           <div className="hidden lg:flex items-center space-x-6">
-            <a href="#categorias" className="text-gray-700 hover:text-violet-600 text-sm font-medium transition-colors">
+            <Link to="/categorias" className="text-gray-700 hover:text-violet-600 text-sm font-medium transition-colors">
               Categorías
-            </a>
-            <a href="#nosotros" className="text-gray-700 hover:text-violet-600 text-sm font-medium transition-colors">
+            </Link>
+            <Link to="/#contacto" className="text-gray-700 hover:text-violet-600 text-sm font-medium transition-colors">
               Nosotros
-            </a>
+            </Link>
             {/*<a href="#registro" className="text-violet-600 hover:text-violet-700 text-sm font-bold transition-colors">
               Ingresa tus datos GRATIS!
             </a>*/}
             <a href="#farmacias" className="text-gray-700 hover:text-violet-600 text-sm font-medium transition-colors">
               Farmacias de turno
             </a>
-            <a href="#contacto" className="text-gray-700 hover:text-violet-600 text-sm font-medium transition-colors">
+            <Link to="/#contacto" className="text-gray-700 hover:text-violet-600 text-sm font-medium transition-colors">
               Contacto
-            </a>
+            </Link>
           </div>
 
           <div className="hidden md:flex items-center space-x-3 ml-6">
